@@ -22,8 +22,17 @@ app.use(express.json())
 
 app.use('/api', apiRouter)
 
+// ✅ เพิ่มตรงนี้
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    message: '🚀 POS Backend is running!',
+    port: PORT,
+    timestamp: new Date().toISOString(),
+  })
+})
+
 // Error handler
-// eslint-disable-next-line no-unused-vars
 app.use((err, _req, res, _next) => {
   console.error('[api:error]', err)
   const status = err.status || 500
@@ -57,4 +66,3 @@ io.on('connection', (socket) => {
 httpServer.listen(PORT, () => {
   console.log(`Backend server listening on port ${PORT}`)
 })
-
