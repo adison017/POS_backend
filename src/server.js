@@ -23,6 +23,7 @@ app.use(express.json())
 app.use('/api', apiRouter)
 
 // ✅ เพิ่มตรงนี้
+// ✅ เพิ่มก่อน Error handler
 app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'ok',
@@ -31,6 +32,16 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
   })
 })
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    message: '🚀 POS Backend is running!',
+    port: PORT,
+    timestamp: new Date().toISOString(),
+  })
+})
+
 
 // Error handler
 app.use((err, _req, res, _next) => {
