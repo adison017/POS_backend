@@ -12,6 +12,16 @@ export const findActiveMenuItems = async () => {
   return data
 }
 
+// Add function to fetch all menu items (for admin management)
+export const findAllMenuItems = async () => {
+  const { data, error } = await supabase
+    .from('menu_items')
+    .select(baseSelect)
+
+  if (error) throw error
+  return data
+}
+
 export const createMenuItem = async (item) => {
   const { data, error } = await supabase
     .from('menu_items')
@@ -33,3 +43,13 @@ export const updateMenuItem = async (id, updates) => {
   return data?.[0] ?? null
 }
 
+// Add delete function
+export const deleteMenuItem = async (id) => {
+  const { data, error } = await supabase
+    .from('menu_items')
+    .delete()
+    .eq('id', id)
+
+  if (error) throw error
+  return data
+}

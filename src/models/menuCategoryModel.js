@@ -11,6 +11,17 @@ export const findActiveMenuCategories = async () => {
   return data
 }
 
+// Add function to fetch all menu categories (for admin management)
+export const findAllMenuCategories = async () => {
+  const { data, error } = await supabase
+    .from('menu_categories')
+    .select('*')
+    .order('display_order')
+
+  if (error) throw error
+  return data
+}
+
 export const createMenuCategory = async (category) => {
   const { data, error } = await supabase
     .from('menu_categories')
@@ -31,4 +42,3 @@ export const updateMenuCategory = async (id, updates) => {
   if (error) throw error
   return data?.[0] ?? null
 }
-

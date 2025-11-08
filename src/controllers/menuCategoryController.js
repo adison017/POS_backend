@@ -1,12 +1,19 @@
 import {
   createMenuCategory,
   findActiveMenuCategories,
+  findAllMenuCategories,
   updateMenuCategory,
 } from '../models/menuCategoryModel.js'
 
-export const listMenuCategories = async (_req, res, next) => {
+export const listMenuCategories = async (req, res, next) => {
   try {
-    const categories = await findActiveMenuCategories()
+    // Check if we want all categories (for admin) or just active ones (for POS)
+    const showAll = req.query.showAll === 'true';
+    
+    const categories = showAll 
+      ? await findAllMenuCategories() 
+      : await findActiveMenuCategories();
+      
     res.json(categories)
   } catch (error) {
     next(error)
@@ -30,4 +37,3 @@ export const editMenuCategory = async (req, res, next) => {
     next(error)
   }
 }
-
