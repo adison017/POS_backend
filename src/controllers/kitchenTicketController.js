@@ -5,9 +5,12 @@ import {
 } from '../models/kitchenTicketModel.js'
 import { io } from '../server.js'
 
-export const listKitchenTickets = async (_req, res, next) => {
+export const listKitchenTickets = async (req, res, next) => {
   try {
-    const tickets = await findKitchenTickets()
+    // Get limit parameter (default to 100, max 200)
+    const limit = Math.min(parseInt(req.query.limit) || 100, 200)
+    
+    const tickets = await findKitchenTickets(limit)
     res.json(tickets)
   } catch (error) {
     next(error)
@@ -33,4 +36,3 @@ export const editKitchenTicket = async (req, res, next) => {
     next(error)
   }
 }
-
