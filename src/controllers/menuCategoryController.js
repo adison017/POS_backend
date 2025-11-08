@@ -3,6 +3,7 @@ import {
   findActiveMenuCategories,
   findAllMenuCategories,
   updateMenuCategory,
+  deleteMenuCategory,
 } from '../models/menuCategoryModel.js'
 
 export const listMenuCategories = async (req, res, next) => {
@@ -33,6 +34,16 @@ export const editMenuCategory = async (req, res, next) => {
   try {
     const updatedCategory = await updateMenuCategory(req.params.id, req.body)
     res.json(updatedCategory)
+  } catch (error) {
+    next(error)
+  }
+}
+
+// Add delete controller function
+export const deleteMenuCategoryController = async (req, res, next) => {
+  try {
+    await deleteMenuCategory(req.params.id)
+    res.status(204).send()
   } catch (error) {
     next(error)
   }
