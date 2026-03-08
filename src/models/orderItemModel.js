@@ -23,3 +23,12 @@ export const createOrderItem = async (item) => {
   return data?.[0] ?? null
 }
 
+export const deleteOrderItems = async (orderId) => {
+  const { error } = await supabase
+    .from('order_items')
+    .delete()
+    .eq('order_id', orderId)
+
+  if (error) throw error
+  return true
+}

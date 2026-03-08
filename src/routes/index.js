@@ -9,6 +9,7 @@ import orderItemRoutes from './orderItemRoutes.js'
 import orderRoutes from './orderRoutes.js'
 import paymentMethodRoutes from './paymentMethodRoutes.js'
 import storageRoutes from './storageRoutes.js'
+import tableRoutes from './tableRoutes.js'
 
 const router = Router()
 
@@ -22,6 +23,7 @@ router.use('/payment-methods', paymentMethodRoutes)
 router.use('/expenses', expenseRoutes)
 router.use('/income', incomeRoutes)
 router.use('/storage', storageRoutes)
+router.use('/tables', tableRoutes)
 
 export default router
 

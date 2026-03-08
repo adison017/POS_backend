@@ -3,6 +3,7 @@ import {
   findOrders,
   findLatestOrder,
   updateOrder,
+  findOpenOrderByTable,
 } from '../models/orderModel.js'
 
 export const listOrders = async (req, res, next) => {
@@ -12,17 +13,17 @@ export const listOrders = async (req, res, next) => {
     const offset = parseInt(req.query.offset) || 0
     const from = req.query.from
     const to = req.query.to
-    
+
     // Ensure limit is reasonable
     const safeLimit = Math.min(Math.max(limit, 1), 100)
-    
+
     const orders = await findOrders({
       limit: safeLimit,
       offset,
       from,
       to
     })
-    
+
     res.json(orders)
   } catch (error) {
     next(error)
@@ -47,12 +48,27 @@ export const editOrder = async (req, res, next) => {
   }
 }
 
+
 export const getLatestOrder = async (_req, res, next) => {
   try {
     const latestOrder = await findLatestOrder()
     res.json({
       latestOrderNo: latestOrder?.order_no ?? null
     })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getOpenOrderByTable = async (req, res, next) => {
+  try {
+    const { tableId } = req.params
+    const order = await findOpenOrderByTable(tableId)
+    if (order) {
+      res.json(order)
+    } else {
+      res.status(204).end() // No content (no open order)
+    }
   } catch (error) {
     next(error)
   }

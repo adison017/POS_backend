@@ -57,3 +57,15 @@ export const findLatestOrder = async () => {
   return data?.[0] ?? null
 }
 
+export const findOpenOrderByTable = async (tableId) => {
+  const { data, error } = await supabase
+    .from('orders')
+    .select('*, order_items(*)')
+    .eq('table_id', tableId)
+    .eq('status', 'pending')
+    .maybeSingle() // Use maybeSingle to avoid error if not found
+
+  if (error) throw error
+  return data
+}
+
